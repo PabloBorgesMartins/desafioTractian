@@ -18,6 +18,7 @@ export const SafeArea = styled.div`
     box-Shadow: 1px 1px 10px 3px var(--black);
 
     @media (max-width: 1000px) {
+        overflow: auto;
         flex-direction: column;
     }
 `;
@@ -26,7 +27,7 @@ export const Content = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
-    min-height: 100%;
+    min-height: 90vh;
     border-radius: 20px 0 0 10px;
     background-color: var(--background);
 

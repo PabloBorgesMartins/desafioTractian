@@ -39,7 +39,7 @@ const NavBar = () => {
     }, [selected]);
 
     return (
-        <Container>
+        <Container style={{position:"sticky"}}>
             <Logo src={logo2} />
             <Menu>
                 <Link to="/">

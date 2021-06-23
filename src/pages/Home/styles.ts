@@ -6,8 +6,8 @@ export const Container = styled.div`
     padding: 20px 0;
     margin: 0;
     width: 100%;
-    /* background-color: red;
-    height: 190vh; */
+    /* background-color: red; */
+    height: 190vh;
 `;
 
 

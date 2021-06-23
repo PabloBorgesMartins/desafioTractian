@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
     Container,
-    Title
+    Title,
+    Blue
 } from './styles'
 import {
     useHistory
@@ -55,10 +56,12 @@ const TopBar: React.FC<TopBarProps> = ({ page }) => {
     }, [selected]);
 
     return (
-        <Container>
-            {getRouteIcon()}
-            <Title>{getRouteName()}</Title>
-        </Container>
+        <Blue>
+            <Container>
+                {getRouteIcon()}
+                <Title>{getRouteName()}</Title>
+            </Container>
+        </Blue>
     );
 }
 

@@ -9,18 +9,18 @@ export const GlobalStyle = createGlobalStyle`
         --black:#222;
         --white:#f1f1f1;
 
-        --tractianBlue: #2563ea;
-        --tractianDarkBlue: #1e62ed;
-
         --egyptianBlue:#15348F;
         --cobaltBlue:#004BA8;
         --hanBlue:#4B6DD1;
         --spaceCadet:#32394F;
         --jet:#2D2E33;
+        --nimbus: #CAD6FA;
 
-        --background2: #CAD6FA;
+        --tractianBlue: #2563ea;
+        --tractianDarkBlue: #1e62ed;
         /* --background: #eaeaea; */
         --background: #ddd;
+        --backgroundLight: #e7e7e7;
     }  
 
     * { 
@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     html{
+        scroll-behavior: smooth;
         @media (max-width: 1080px){
             font-size: 93.75%;
         }
@@ -66,8 +67,11 @@ export const GlobalStyle = createGlobalStyle`
         background-color: transparent;  
     }
     ::-webkit-scrollbar-thumb {
-        background-color: #999591;
+        background-color: #1e62ed;
         border-radius: 16px;
+        @media (max-width: 1000px) {
+            background-color: #aaa;
+        }
     }
 
 `;

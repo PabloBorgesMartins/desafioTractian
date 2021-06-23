@@ -10,8 +10,10 @@ interface MenuProps {
 
 export const Container = styled.div`
     position: sticky;
-    height: 100vh;
+    position: -webkit-sticky;
     top: 0;
+    left: 0;
+    height: 100vh;
     flex-direction: column;
     padding: 20px 0;
     width: 80px;
@@ -56,6 +58,7 @@ export const Button = styled.button<MenuProps>`
 
     ${props => props.isSelected && css`
         background-color: var(--white);
+        border-radius: 0 20px 20px 0;
         color: var(--tractianBlue);
     `}
 `;
@@ -64,6 +67,11 @@ export const MenuDropdown = styled.div<MenuDropDownProps>`
     display: none;
 
     @media (max-width: 1000px) {
+        /* position: sticky;  
+        top: 0;
+        left: 0; */
+        z-index: 100000;
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -91,6 +99,8 @@ export const MenuDropDownLogo = styled.img<MenuDropDownProps>`
             display: flex;
             width: 40%;
             max-width: 200px;
+            min-width: 150px;
+            margin: 20px 0 0 20px;
             height: auto;
         `}
     }
