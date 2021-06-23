@@ -1,60 +1,98 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
     Container,
     Logo,
     Menu,
     MenuDropdown,
-    MenuButton,
+    MenuDropDownButton,
+    MenuDropDownLogo,
     MenuDropdownContainer,
-    Button
+    Button,
+    DropDownButton
 } from './styles'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
 import { IoMdMenu } from 'react-icons/io';
+import { FaUsers, FaTh, FaTools, FaSuitcase, FaHome } from 'react-icons/fa';
 
 import logo from '../../assets/tractian.png'
+import logo2 from '../../assets/favicon.png'
 
-
-const Input = () => {
+const NavBar = () => {
     const [open, setOpen] = useState(false);
+    const { listen, location } = useHistory();
+    const [selected, setSelected] = useState(['home']);
+
+    useEffect(() => {
+        setSelected([location.pathname.substring(1, location.pathname.length)]);
+
+        return listen(route => {
+            setSelected([route.pathname.substring(1, route.pathname.length)]);
+        });
+    }, [location]);
+
+    const getRouteName = useCallback((value) => {
+        if (value == selected[0]) {
+            return true;
+        }
+        return false;
+    }, [selected]);
 
     return (
         <Container>
-            <Logo src={logo} />
+            <Logo src={logo2} />
             <Menu>
-                <Button>
-                    <Link to="/">Ativos</Link>
-                </Button>
-                <Button>
-                    <Link to="/users">Usuários</Link>
-                </Button>
-                <Button>
-                    <Link to="/companies">Empresas</Link>
-                </Button>
-                <Button>
-                    <Link to="/units">Unidades</Link>
-                </Button>
+                <Link to="/">
+                    <Button isSelected={getRouteName("")}>
+                        <FaHome size={30} />
+                    </Button>
+                </Link>
+                <Link to="/assets">
+                    <Button isSelected={getRouteName("assets")}>
+                        <FaTools size={30} />
+                    </Button>
+                </Link>
+                <Link to="/users">
+                    <Button isSelected={getRouteName("users")}>
+                        <FaUsers size={30} />
+                    </Button>
+                </Link>
+                <Link to="/companies">
+                    <Button isSelected={getRouteName("companies")}>
+                        <FaSuitcase size={30} />
+                    </Button>
+                </Link>
+                <Link to="/units">
+                    <Button isSelected={getRouteName("units")}>
+                        <FaTh size={30} />
+                    </Button>
+                </Link>
             </Menu>
             <MenuDropdown onClick={() => setOpen(!open)} isOpen={open}>
-                <MenuButton>
-                    <IoMdMenu size={25} color={'#ccc'} />
-                </MenuButton>
+                <MenuDropDownButton>
+                    <MenuDropDownLogo isOpen={open} src={logo}/>
+                    <IoMdMenu size={25}/>
+                </MenuDropDownButton>
                 <MenuDropdownContainer isOpen={open}>
-                    <Button>
-                        <Link to="/">Ativos</Link>
-                    </Button>
-                    <Button>
+                    <DropDownButton>
+                        <Link to="/">Início</Link>
+                    </DropDownButton>
+                    <DropDownButton>
+                        <Link to="/assets">Ativos</Link>
+                    </DropDownButton>
+                    <DropDownButton>
                         <Link to="/users">Usuários</Link>
-                    </Button>
-                    <Button>
+                    </DropDownButton>
+                    <DropDownButton>
                         <Link to="/companies">Empresas</Link>
-                    </Button>
-                    <Button>
+                    </DropDownButton>
+                    <DropDownButton>
                         <Link to="/units">Unidades</Link>
-                    </Button>
+                    </DropDownButton>
                 </MenuDropdownContainer>
             </MenuDropdown>
         </Container>
     );
 }
 
-export default Input;
+export default NavBar;

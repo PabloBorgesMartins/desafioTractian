@@ -4,12 +4,12 @@ import {
     Title
  } from './styles'
 
-const Assets = () => {
+const Home = () => {
     return (
         <Container>
-            <Title>Ativos</Title>
+            <Title>Home</Title>
         </Container>
     );
 }
 
-export default Assets;
+export default Home;

@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     BrowserRouter,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
-
 import {
     Container,
     SafeArea,
+    Content,
     Teste
 } from './styles'
 
 import NavBar from '../components/NavBar'
+import TopBar from '../components/TopBar'
+import Home from '../pages/Home'
 import Assets from '../pages/Assets'
 import Companies from '../pages/Companies'
 import Units from '../pages/Units'
@@ -24,12 +25,17 @@ export default function App() {
             <Container>
                 <SafeArea>
                     <NavBar />
-                    <Switch>
-                        <Route path="/" component={Assets} exact />
-                        <Route path="/companies" component={Companies} />
-                        <Route path="/units" component={Units} />
-                        <Route path="/users" component={Users} />
-                    </Switch>
+                    <Content>
+                        <TopBar page={"teste"} />
+                        <Switch>
+                            <Route path="/" component={Home} exact />
+                            <Route path="/assets" component={Assets} />
+                            <Route path="/companies" component={Companies} />
+                            <Route path="/units" component={Units} />
+                            <Route path="/users" component={Users} />
+                        </Switch>
+                    </Content>
+
                     {/* <Teste/> */}
                 </SafeArea>
 

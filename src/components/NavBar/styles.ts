@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components';
 
-interface MenuProps{
+interface MenuDropDownProps {
     isOpen: boolean;
+}
+
+interface MenuProps {
+    isSelected: boolean;
 }
 
 export const Container = styled.div`
@@ -9,10 +13,8 @@ export const Container = styled.div`
     height: 100vh;
     top: 0;
     flex-direction: column;
-    background-color: var(--black);
     padding: 20px 0;
-    width: 200px;
-    min-width: 200px;
+    width: 80px;
 
     @media (max-width: 1000px) {
         flex-direction: row;
@@ -25,16 +27,13 @@ export const Container = styled.div`
 
 export const Logo = styled.img`
     height: auto;
-    width: 100%;
+    width: 70%;
     align-self: center;
-    padding: 0 20px 50px;
-    border-bottom: 1px solid var(--gray);
+    padding: 0 0 50px;
 
     @media (max-width: 1000px) {
-        height: auto;
-        width: 150px;
+        width: 50px;
         padding: 0;
-        border: 0;
     }
 `;
 
@@ -44,54 +43,94 @@ export const Menu = styled.div`
     }
 `;
 
-export const Button = styled.button`
-    display: flex;
+export const Button = styled.button<MenuProps>`
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    padding: 20px 0;
+    margin: 10px 0;
     background-color: transparent;
     border: 0;
-    border-bottom: 1px solid var(--gray);
-    
-    a{
-        text-decoration: none;
-        color: var(--background);
-        font-weight: bold;
-        font-size: 1.4rem;
-        width: 100%;
-        padding: 10px 20px;
-        text-align: left;
-    }
+    color: var(--white);
+
+
+    ${props => props.isSelected && css`
+        background-color: var(--white);
+        color: var(--tractianBlue);
+    `}
 `;
 
-export const MenuDropdown = styled.div<MenuProps>`
+export const MenuDropdown = styled.div<MenuDropDownProps>`
     display: none;
 
     @media (max-width: 1000px) {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        justify-content: center;
         padding: 0;
-        border: 1px solid #ccc;
-        background-color: var(--black);
+        border: 0;
+        border-radius: 5px;
+        background-color: var(--white);
 
         ${props => props.isOpen && css`
             position: absolute;
             top: 10px;
-            right: 20px;
+            right: 5%;
+            width: 90%;
+            box-Shadow: 3px 0px 6px 0px var(--black);
         `}
     }
 `;
 
-export const MenuButton = styled.button`
+export const MenuDropDownLogo = styled.img<MenuDropDownProps>`
+    display: none;
+
+    @media (max-width: 1000px) {
+        ${props => props.isOpen && css`
+            display: flex;
+            width: 40%;
+            max-width: 200px;
+            height: auto;
+        `}
+    }
+`;
+
+export const MenuDropDownButton = styled.button`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 10px;
     border: 0;
+    width: 100%;
     background-color: transparent;
 `;
 
-export const MenuDropdownContainer = styled.div<MenuProps>`
+export const MenuDropdownContainer = styled.div<MenuDropDownProps>`
     width: 100%;
+    padding: 10px;
 
     ${props => !props.isOpen && css`
         display: none;
     `}
 `;
 
+export const DropDownButton = styled.button`
+    display: flex;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid var(--black);
+    border: 0;
+    
+    a{
+        text-decoration: none;
+        color: var(--black);
+        font-weight: bold;
+        font-size: 1.4rem;
+        width: 100%;
+        padding: 20px;
+        text-align: left;
+    }
+`;

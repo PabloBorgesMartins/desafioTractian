@@ -7,9 +7,10 @@ export const GlobalStyle = createGlobalStyle`
         --red:#cc2419;
         --gray:#4A525A;
         --black:#222;
+        --white:#f1f1f1;
 
         --tractianBlue: #2563ea;
-        --tractianDarkBlue: #1e40af;
+        --tractianDarkBlue: #1e62ed;
 
         --egyptianBlue:#15348F;
         --cobaltBlue:#004BA8;
@@ -18,7 +19,8 @@ export const GlobalStyle = createGlobalStyle`
         --jet:#2D2E33;
 
         --background2: #CAD6FA;
-        --background: #f1f1f1;
+        /* --background: #eaeaea; */
+        --background: #ddd;
     }  
 
     * { 
@@ -54,6 +56,18 @@ export const GlobalStyle = createGlobalStyle`
     [disabled] {
         opacity: 0.6;
         cursor: not-allowed;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 2px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;  
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: #999591;
+        border-radius: 16px;
     }
 
 `;
