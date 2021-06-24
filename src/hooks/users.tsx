@@ -23,11 +23,10 @@ const UserProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const users = localStorage.getItem('@tractian:users')
-
+      console.log(" USERS CARREGADPS _>>>", users)
       if (users) {
-        setSavedUsers(JSON.parse(users));
+        await setSavedUsers(JSON.parse(users));
       }
-      getUsers();
     }
     loadStoragedData();
   }, []);
@@ -50,9 +49,9 @@ const UserProvider: React.FC = ({ children }) => {
   }, [users]);
 
   const addUser = useCallback(async (user: UserProps) => {
-    setSavedUsers([...savedUsers, user]);
-    localStorage.setItem('@tractian:users', JSON.stringify(savedUsers));
-    setUsers([...users, ...savedUsers])
+    user.id = users.length + 1;
+    await setSavedUsers([...savedUsers, user]);
+    await setUsers([...users, user]);
   }, [users, savedUsers]);
 
   const editUser = useCallback(async (user: UserProps) => {
@@ -69,8 +68,24 @@ const UserProvider: React.FC = ({ children }) => {
     } catch (err) {
       console.log("Error delete user", err)
     }
+    verifyIfSaved(usersAux[index]);
     setUsers(usersAux)
   }, [users]);
+
+  const verifyIfSaved = useCallback(async (user: UserProps) => {
+    let index = -1;
+    savedUsers.forEach((el, i) => {
+      if (el.id == user.id) {
+        index = i;
+      }
+    })
+    if (index >= 0) {
+      let usersAux = [...savedUsers];
+      usersAux[index] = user;
+      setSavedUsers(usersAux);
+      localStorage.setItem('@tractian:users', JSON.stringify(usersAux));
+    }
+  }, [savedUsers]);
 
   const getIndex = (id: number) => {
     let index = -1;

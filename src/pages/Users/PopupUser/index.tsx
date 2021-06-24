@@ -28,14 +28,14 @@ interface ModalProps {
 const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
     const [nameInput, setNameInput] = useState("")
     const [emailInput, setEmailInput] = useState("")
-    const [unitInput, setUnitInput] = useState("")
-    const [companyInput, setCompanyInput] = useState("")
+    const [unitInput, setUnitInput] = useState(0)
+    const [companyInput, setCompanyInput] = useState(0)
     const [loading, setLoading] = useState(true)
     const [userData, setUserData] = useState<UserProps>({} as UserProps)
 
     const { getUnits, units, getUnitById } = useUnit()
     const { getCompanies, companies, getCompanyById } = useCompany()
-    const { getUserById } = useUser()
+    const { getUserById, editUser, addUser } = useUser()
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
@@ -48,8 +48,8 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
     }, [item.modalVisible])
 
     useEffect(() => {
-        // console.log("company inout", companyInput)
-        // console.log("unit inout", unitInput)
+        // console.log("company input", companyInput)
+        // console.log("unit input", unitInput)
     }, [unitInput, companyInput])
 
     const loadData = async () => {
@@ -64,9 +64,23 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
 
     const handleSave = () => {
         if (item.id) {
-
+            editUser({
+                id: item.id,
+                active: true,
+                email: emailInput,
+                name: nameInput,
+                companyId: companyInput,
+                unitId: unitInput
+            })
         } else {
-
+            addUser({
+                id: 0,
+                active: true,
+                email: emailInput,
+                name: nameInput,
+                companyId: companyInput,
+                unitId: unitInput
+            })
         }
         item.setModalVisible(false);
     }
@@ -100,14 +114,14 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                 <ContainerSelect>
                                     <h1>Empresa</h1>
                                     <select
-                                        onChange={(event) => setCompanyInput(event.target.value)}
+                                        onChange={(event) => setCompanyInput(parseInt(event.target.value))}
                                         id="company"
                                         defaultValue={userData.companyId ? getCompanyById(userData.companyId) : companies[0].name}
                                     >
                                         {
                                             companies.map((item, i) => {
                                                 if (true) {
-                                                    return <option key={i} value={item.name}>{item.name}</option>
+                                                    return <option key={i} value={item.id}>{item.name}</option>
                                                 }
                                             })
                                         }
@@ -116,14 +130,14 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                 <ContainerSelect>
                                     <h1>Unidade</h1>
                                     <select
-                                        onChange={(event) => setUnitInput(event.target.value)}
-                                        defaultValue={userData.unitId ? getCompanyById(userData.unitId) : units[0].name}
+                                        onChange={(event) => setUnitInput(parseInt(event.target.value))}
+                                        defaultValue={userData.unitId ? getUnitById(userData.unitId) : units[0].name}
                                         id="unit"
                                     >
                                         {
                                             units.map((item, i) => {
                                                 if (true) {
-                                                    return <option key={i} value={item.name}>{item.name}</option>
+                                                    return <option key={i} value={item.id}>{item.name}</option>
                                                 }
                                             })
                                         }

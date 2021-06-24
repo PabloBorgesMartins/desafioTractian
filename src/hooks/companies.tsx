@@ -24,6 +24,7 @@ const CompanyProvider: React.FC = ({ children }) => {
       if (companies) {
         setSavedCompanies(JSON.parse(companies));
       }
+      // getCompanies();
     }
     loadStoragedData();
   }, []);
@@ -35,7 +36,10 @@ const CompanyProvider: React.FC = ({ children }) => {
 
   const getCompanyById = useCallback((id: number) => {
     let index = getIndex(id)
-    return companies[index].name;
+    if (index >= 0) {
+      return companies[index].name;
+    }
+    return "Sem Empresa";
   }, [companies]);
 
   const addCompany = async (value: string) => {

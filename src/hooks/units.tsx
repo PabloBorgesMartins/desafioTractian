@@ -24,6 +24,7 @@ const UnitProvider: React.FC = ({ children }) => {
       if (companies) {
         setSavedUnits(JSON.parse(companies));
       }
+      // getUnits();
     }
     loadStoragedData();
   }, []);
@@ -35,7 +36,10 @@ const UnitProvider: React.FC = ({ children }) => {
 
   const getUnitById = useCallback((id: number) => {
     let index = getIndex(id)
-    return units[index].name;
+    if (index >= 0) {
+      return units[index].name;
+    }
+    return "Sem Unidade";
   }, [units]);
 
   const getIndex = (id: number) => {
