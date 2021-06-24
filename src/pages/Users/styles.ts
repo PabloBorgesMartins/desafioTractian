@@ -86,6 +86,10 @@ export const HeaderInput = styled.div`
         &::placeholder {
             color: var(--white);
         }
+
+        ::selection{
+            background-color: black;
+        }
     }
 
     @media (max-width: 600px) {

@@ -21,6 +21,8 @@ export const GlobalStyle = createGlobalStyle`
         /* --background: #eaeaea; */
         --background: #ddd;
         --backgroundLight: #e7e7e7;
+
+        --zindexPopup: 1000;
     }  
 
     * { 
@@ -53,6 +55,12 @@ export const GlobalStyle = createGlobalStyle`
     button {
         cursor: pointer
     }
+
+    textarea:focus, input:focus, select:focus {
+        box-shadow: 0 0 0 0;
+        border: 0 none;
+        outline: 0;
+    } 
 
     [disabled] {
         opacity: 0.6;

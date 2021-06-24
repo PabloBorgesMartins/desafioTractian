@@ -26,7 +26,7 @@ export default function App() {
                 <SafeArea>
                     <NavBar />
                     <Content>
-                        <TopBar page={"teste"} />
+                        <TopBar />
                         <Switch>
                             <Route path="/" component={Home} exact />
                             <Route path="/assets" component={Assets} />

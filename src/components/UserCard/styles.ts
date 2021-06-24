@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     padding: 20px;
     border-radius: 10px;
     background-color: var(--backgroundLight);
@@ -22,12 +22,14 @@ export const Image = styled.img`
     width: 50px;
     height: 50px;
     border-radius: 100%;
+    align-self: center;
     border: 1px solid var(--tractianDarkBlue);
 `;
 
 export const UserData = styled.div`
     align-items: flex-start;
     justify-content: space-between;
+    /* background-color: red; */
     width: 100%;
     padding: 0 20px;
 `;

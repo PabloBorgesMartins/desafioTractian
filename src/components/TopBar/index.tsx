@@ -9,11 +9,7 @@ import {
 } from "react-router-dom";
 import { FaUsers, FaTh, FaTools, FaSuitcase, FaHome } from 'react-icons/fa';
 
-interface TopBarProps {
-    page: string;
-}
-
-const TopBar: React.FC<TopBarProps> = ({ page }) => {
+const TopBar: React.FC = () => {
     const { listen, location } = useHistory();
     const [selected, setSelected] = useState(['home']);
 
