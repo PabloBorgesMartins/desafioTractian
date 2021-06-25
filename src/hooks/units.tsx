@@ -19,12 +19,12 @@ const UnitProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
-      const companies = localStorage.getItem('@tractian:companies')
+      const companies = localStorage.getItem('@tractian:units')
 
       if (companies) {
         setSavedUnits(JSON.parse(companies));
       }
-      // getUnits();
+      getUnits();
     }
     loadStoragedData();
   }, []);

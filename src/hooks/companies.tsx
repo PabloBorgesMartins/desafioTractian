@@ -24,7 +24,7 @@ const CompanyProvider: React.FC = ({ children }) => {
       if (companies) {
         setSavedCompanies(JSON.parse(companies));
       }
-      // getCompanies();
+      getCompanies();
     }
     loadStoragedData();
   }, []);

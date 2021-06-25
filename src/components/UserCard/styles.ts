@@ -13,35 +13,55 @@ export const Container = styled.div`
     margin-bottom: 40px;
 
     @media (max-width: 800px) {
-        width: 100%;
         min-width: 0;
+        flex-direction: column;
     }
+
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+    
 `;
 
 export const Image = styled.img`
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 100%;
     align-self: center;
-    border: 1px solid var(--tractianDarkBlue);
+    border: 3px solid var(--tractianDarkBlue);
 `;
 
 export const UserData = styled.div`
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-evenly;
     /* background-color: red; */
     width: 100%;
     padding: 0 20px;
+
+    @media (max-width: 800px) {
+        align-items: center;
+        padding: 30px 0 50px;
+    }
 `;
 
 export const UserName = styled.h1`
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     text-align: left;
+    margin-bottom: 20px;
+
+    @media (max-width: 800px) {
+        text-align: center;
+    }
 `;
 
 export const UserSpecification = styled.p`
-    font-size: 0.9rem;
+    font-size: 1rem;
     text-align: left;
+    color: var(--gray);
+
+    @media (max-width: 800px) {
+        text-align: center;
+    }
 `;
 
 export const RightContent = styled.div`
@@ -50,4 +70,9 @@ export const RightContent = styled.div`
     justify-content: space-between;
     padding: 0;
     /* background-color: red; */
+
+    @media (max-width: 800px) {
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+    }
 `;

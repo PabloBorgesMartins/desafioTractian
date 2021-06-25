@@ -14,12 +14,11 @@ export const Content = styled.div`
     align-items: flex-start;
     background-color: var(--white);
     margin: 0;
-    padding: 10px 0;
+    padding: 10px 0 0;
     width: 100%;
     max-width: 1200px;
     border-radius: 10px;
     box-Shadow: 1px 1px 4px 1px var(--gray);
-    /* border: 1px solid var(--gray); */
 
     /* height: 6000px; */
 `;
@@ -74,6 +73,10 @@ export const HeaderInput = styled.div`
     justify-content: center;
     color: var(--white);
 
+    div{
+        padding: 0 10px;
+    }
+
     input{
         border: 0;
         background-color: transparent;
@@ -101,7 +104,19 @@ export const Body = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     /* background-color: red; */
-    padding: 20px;
+    padding: 20px 20px 0;
     width: 100%;
     justify-content: space-between;
+`;
+
+export const NoDataContainer = styled.div`
+    width: 100%;
+    align-items: center;
+    padding: 30px 0;
+`;
+
+export const NoDataText = styled.text`
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--gray);
 `;

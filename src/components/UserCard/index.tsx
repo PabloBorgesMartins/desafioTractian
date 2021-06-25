@@ -51,4 +51,5 @@ const UserCard: React.FC<UserCardProps> = ({ user, ...props }) => {
     );
 }
 
+
 export default UserCard;

@@ -6,7 +6,7 @@ interface IModalProps {
 
 
 export const ModalOutside = styled.div<IModalProps>`
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: var(--zindexPopup);
@@ -44,8 +44,10 @@ export const Modal = styled.div<IModalProps>`
 
 export const Title = styled.h1`
     display: block;
+    text-align: left;
+    width: 100%;
     color: var(--black);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 `;
 
 export const Body = styled.div`
@@ -54,7 +56,7 @@ export const Body = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    padding: 20px 0;
+    padding: 15px 0 30px;
 `;
 
 export const ContainerInput = styled.div`
@@ -64,74 +66,66 @@ export const ContainerInput = styled.div`
     align-items: flex-start;
     width: 100%;
     border-radius: 10px;
-    background-color: var(--backgroundLight);
-    padding: 10px 15px;
+    /* background-color: var(--backgroundLight); */
+    padding: 10px 0;
     margin: 10px 0;
 
     h1{
         display: block;
-        color: var(--tractianDarkBlue);
+        color: var(--gray);
         font-size: 1.1rem;
+        margin-bottom: 10px;
     }
 
     input {
-        padding: 5px 0;
+        padding: 5px;
         width: 100%;
         min-width: 0;
         background-color: transparent;
-        border: 0;
+        border: 1px solid var(--gray);
+        border-radius: 5px;
         font-size: 1rem;
-    }
-`;
-
-export const ContainerSelect = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
-    border-radius: 10px;
-    background-color: var(--backgroundLight);
-    padding: 10px 10px 10px 0;
-    margin: 10px 0;
-
-    h1{
-        padding: 0 15px;
-        display: block;
-        color: var(--tractianDarkBlue);
-        font-size: 1.1rem;
     }
 
     select{
-        padding: 5px 10px;
+        padding: 5px ;
         width: 100%;
-        background-color: var(--backgroundLight);
-        border: 0;
-        border-radius: 20px;
+        background-color: transparent;
+        border: 1px solid var(--gray);
+        border-radius: 5px;
         font-size: 1rem;
     }
 `;
 
+
 export const Footer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
 `;
 
-export const ButtonAccess = styled.button`
-    padding: 15px 30px;
-    background-color: var(--tractianDarkBlue);
+export const ButtonCancel = styled.button`
+    padding: 10px 20px;
+    background-color: var(--background);
     border: 0;
     border-radius: 5px;
 
-    h1{
-        width: 100%;
-        text-align: center;
-        color: var(--white);
-        font-size: 1rem;
-    }
+    color: var(--black);
+    font-size: 1rem;
+    font-weight: bold;
+`;
+
+export const ButtonAccess = styled.button`
+    padding: 10px 20px;
+    background-color: var(--tractianDarkBlue);
+    border: 0;
+    border-radius: 5px;
+    margin-left: 20px;
+
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: bold;
 `;
 
 

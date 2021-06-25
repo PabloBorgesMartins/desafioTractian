@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-
 import {
     Modal,
     ModalOutside,
     Title,
     Body,
     ContainerInput,
-    ContainerSelect,
     Footer,
     ButtonAccess,
+    ButtonCancel
 } from './styles'
+import * as Yup from 'yup';
 
+import getValidationErrors from '../../../utils/getValidationErrors';
 import { useCompany } from '../../../hooks/companies'
 import { UserProps } from '../../../interfaces/User'
 import { useUser } from '../../../hooks/users'
 import { useUnit } from '../../../hooks/units'
 import LoaderSpinner from '../../../components/LoaderSpinner'
+import { useCallback } from 'react';
 
 interface ModalProps {
     item: {
@@ -26,16 +28,16 @@ interface ModalProps {
 }
 
 const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
-    const [nameInput, setNameInput] = useState("")
-    const [emailInput, setEmailInput] = useState("")
-    const [unitInput, setUnitInput] = useState(0)
-    const [companyInput, setCompanyInput] = useState(0)
-    const [loading, setLoading] = useState(true)
-    const [userData, setUserData] = useState<UserProps>({} as UserProps)
+    const [nameInput, setNameInput] = useState("");
+    const [emailInput, setEmailInput] = useState("");
+    const [unitInput, setUnitInput] = useState(1);
+    const [companyInput, setCompanyInput] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useState<UserProps>({} as UserProps);
 
-    const { getUnits, units, getUnitById } = useUnit()
-    const { getCompanies, companies, getCompanyById } = useCompany()
-    const { getUserById, editUser, addUser } = useUser()
+    const { getUnits, units, getUnitById } = useUnit();
+    const { getCompanies, companies, getCompanyById } = useCompany();
+    const { getUserById, editUser, addUser } = useUser();
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
@@ -47,48 +49,71 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
         }
     }, [item.modalVisible])
 
-    useEffect(() => {
-        // console.log("company input", companyInput)
-        // console.log("unit input", unitInput)
-    }, [unitInput, companyInput])
-
     const loadData = async () => {
         await getUnits();
         await getCompanies();
         if (item.id) {
             let aux = await getUserById(item.id)
             setUserData(aux);
+            setEmailInput(aux.email);
+            setNameInput(aux.name);
+            setCompanyInput(aux.companyId);
+            setUnitInput(aux.unitId);
         }
         setLoading(false)
     }
 
-    const handleSave = () => {
-        if (item.id) {
-            editUser({
-                id: item.id,
-                active: true,
+    const handleSave = useCallback(async () => {
+        try {
+            let data = {
                 email: emailInput,
                 name: nameInput,
                 companyId: companyInput,
                 unitId: unitInput
-            })
-        } else {
-            addUser({
-                id: 0,
-                active: true,
-                email: emailInput,
-                name: nameInput,
-                companyId: companyInput,
-                unitId: unitInput
-            })
+            }
+            const schema = Yup.object().shape({
+                email: Yup.string()
+                    .required('E-mail obrigatório!')
+                    .email('Digite um e-mail válido!'),
+                name: Yup.string().required('Nome obrigatório!'),
+                companyId: Yup.string().required('Selecione uma Empresa!'),
+                unitId: Yup.string().required('Selecione uma unidade!')
+            });
+            await schema.validate(data, {
+                abortEarly: false,
+            });
+            if (item.id) {
+                editUser({
+                    id: item.id,
+                    active: true,
+                    ...data
+                })
+            } else {
+                addUser({
+                    id: 0,
+                    active: true,
+                    ...data
+                })
+            }
+        } catch (err) {
+            if (err instanceof Yup.ValidationError) {
+                const errors = getValidationErrors(err);
+                alert(errors[0]);
+                return;
+            }
         }
         item.setModalVisible(false);
-    }
+    }, [emailInput, nameInput, item, companyInput, unitInput]);
+
+    const closeModal = useCallback(() => {
+        item.setModalVisible(false);
+    }, [item]);
 
     return (
-        <ModalOutside isVisi={item.modalVisible} onClick={() => item.setModalVisible(false)}>
+        <ModalOutside isVisi={item.modalVisible}>
             <Modal isVisi={item.modalVisible} onClick={e => handleCancelParentEvent(e)}>
                 <Title>
+                    {item.id ? "Editar " : "Criar "}
                     Usuário
                 </Title>
                 {
@@ -98,21 +123,21 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                         <>
                             <Body>
                                 <ContainerInput>
-                                    <h1>Nome</h1>
+                                    <h1>*Nome</h1>
                                     <input
                                         defaultValue={userData ? userData.name : ""}
                                         onChange={(event) => setNameInput(event.target.value)}
                                     />
                                 </ContainerInput>
                                 <ContainerInput>
-                                    <h1>email</h1>
+                                    <h1>*Email</h1>
                                     <input
                                         defaultValue={userData ? userData.email : ""}
                                         onChange={(event) => setEmailInput(event.target.value)}
                                     />
                                 </ContainerInput>
-                                <ContainerSelect>
-                                    <h1>Empresa</h1>
+                                <ContainerInput>
+                                    <h1>*Empresa</h1>
                                     <select
                                         onChange={(event) => setCompanyInput(parseInt(event.target.value))}
                                         id="company"
@@ -126,9 +151,9 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                             })
                                         }
                                     </select>
-                                </ContainerSelect>
-                                <ContainerSelect>
-                                    <h1>Unidade</h1>
+                                </ContainerInput>
+                                <ContainerInput>
+                                    <h1>*Unidade</h1>
                                     <select
                                         onChange={(event) => setUnitInput(parseInt(event.target.value))}
                                         defaultValue={userData.unitId ? getUnitById(userData.unitId) : units[0].name}
@@ -142,15 +167,18 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                             })
                                         }
                                     </select>
-                                </ContainerSelect>
+                                </ContainerInput>
                             </Body>
                             <Footer>
+                                <ButtonCancel
+                                    onClick={() => closeModal()}
+                                >
+                                    Cancelar
+                                </ButtonCancel>
                                 <ButtonAccess
                                     onClick={() => handleSave()}
                                 >
-                                    <h1>
-                                        Finalizar
-                                    </h1>
+                                    Finalizar
                                 </ButtonAccess>
                             </Footer>
                         </>

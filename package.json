@@ -10,8 +10,11 @@
     "react-loader-spinner": "^4.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-spring": "^9.2.3",
     "styled-components": "^5.2.1",
-    "web-vitals": "^1.0.1"
+    "uuidv4": "^6.2.10",
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
