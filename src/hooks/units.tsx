@@ -7,7 +7,11 @@ import { UnitProps } from '../interfaces/Unit'
 
 interface UnitContextData {
   getUnits(): void;
-  getUnitById: (id: number) => string;
+  getUnitById: (id: number) => UnitProps;
+  getUnitNameById: (id: number) => string;
+  editUnit: (user: UnitProps) => void;
+  addUnit: (user: UnitProps) => void;
+  deleteUnit: (id: number) => void;
   units: UnitProps[];
 }
 
@@ -18,15 +22,7 @@ const UnitProvider: React.FC = ({ children }) => {
   const [units, setUnits] = useState<UnitProps[]>([]);
 
   useEffect(() => {
-    async function loadStoragedData(): Promise<void> {
-      const companies = localStorage.getItem('@tractian:units')
-
-      if (companies) {
-        setSavedUnits(JSON.parse(companies));
-      }
-      getUnits();
-    }
-    loadStoragedData();
+    getUnits();
   }, []);
 
   const getUnits = useCallback(async () => {
@@ -37,9 +33,40 @@ const UnitProvider: React.FC = ({ children }) => {
   const getUnitById = useCallback((id: number) => {
     let index = getIndex(id)
     if (index >= 0) {
+      return units[index];
+    }
+    return {} as UnitProps;
+  }, [units]);
+
+  const getUnitNameById = useCallback((id: number) => {
+    let index = getIndex(id)
+    if (index >= 0) {
       return units[index].name;
     }
     return "Sem Unidade";
+  }, [units]);
+
+  const addUnit = useCallback(async (unit: UnitProps) => {
+    unit.id = units.length + 1;
+    await setSavedUnits([...savedUnits, unit]);
+    await setUnits([...units, unit]);
+  }, [units, savedUnits]);
+
+  const editUnit = useCallback(async (unit: UnitProps) => {
+    let unitsAux = [...units];
+    unitsAux[getIndex(unit.id)] = unit;
+    setUnits(unitsAux);
+  }, [units]);
+
+  const deleteUnit = useCallback(async (id: number) => {
+    let unitsAux = [...units];
+    let index = getIndex(id)
+    try {
+      unitsAux[index].active = false;
+    } catch (err) {
+      console.log("Error delete user", err)
+    }
+    setUnits(unitsAux)
   }, [units]);
 
   const getIndex = (id: number) => {
@@ -57,7 +84,11 @@ const UnitProvider: React.FC = ({ children }) => {
       value={{
         getUnits,
         getUnitById,
-        units
+        getUnitNameById,
+        units,
+        addUnit,
+        deleteUnit,
+        editUnit
       }}
     >
       {children}

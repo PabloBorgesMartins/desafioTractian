@@ -13,8 +13,7 @@ import * as Yup from 'yup';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { useCompany } from '../../../hooks/companies'
-import { UserProps } from '../../../interfaces/User'
-import { useUser } from '../../../hooks/users'
+import { UnitProps } from '../../../interfaces/Unit'
 import { useUnit } from '../../../hooks/units'
 import LoaderSpinner from '../../../components/LoaderSpinner'
 import { useCallback } from 'react';
@@ -27,17 +26,14 @@ interface ModalProps {
     }
 }
 
-const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
+const PopupUnit: React.FC<ModalProps> = ({ item, ...props }) => {
     const [nameInput, setNameInput] = useState("");
-    const [emailInput, setEmailInput] = useState("");
-    const [unitInput, setUnitInput] = useState(1);
     const [companyInput, setCompanyInput] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [userData, setUserData] = useState<UserProps>({} as UserProps);
+    const [unitData, setUnitData] = useState<UnitProps>({} as UnitProps);
 
-    const { getUnits, units, getUnitNameById } = useUnit();
+    const { getUnits, units, getUnitById, editUnit, addUnit } = useUnit();
     const { getCompanies, companies, getCompanyById } = useCompany();
-    const { getUserById, editUser, addUser } = useUser();
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
@@ -53,12 +49,10 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
         await getUnits();
         await getCompanies();
         if (item.id) {
-            let aux = await getUserById(item.id)
-            setUserData(aux);
-            setEmailInput(aux.email);
+            let aux = await getUnitById(item.id)
+            setUnitData(aux);
             setNameInput(aux.name);
             setCompanyInput(aux.companyId);
-            setUnitInput(aux.unitId);
         }
         setLoading(false)
     }
@@ -66,30 +60,23 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
     const handleSave = useCallback(async () => {
         try {
             let data = {
-                email: emailInput,
                 name: nameInput,
                 companyId: companyInput,
-                unitId: unitInput
             }
             const schema = Yup.object().shape({
-                email: Yup.string()
-                    .required('E-mail obrigatório!')
-                    .email('Digite um e-mail válido!'),
                 name: Yup.string().required('Nome obrigatório!'),
                 companyId: Yup.string().required('Selecione uma Empresa!'),
-                unitId: Yup.string().required('Selecione uma unidade!')
             });
             await schema.validate(data, {
                 abortEarly: false,
             });
             if (item.id) {
-                editUser({
+                editUnit({
                     id: item.id,
-                    active: true,
                     ...data
                 })
             } else {
-                addUser({
+                addUnit({
                     id: 0,
                     active: true,
                     ...data
@@ -103,7 +90,7 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
             }
         }
         item.setModalVisible(false);
-    }, [emailInput, nameInput, item, companyInput, unitInput]);
+    }, [nameInput, item]);
 
     const closeModal = useCallback(() => {
         item.setModalVisible(false);
@@ -114,7 +101,7 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
             <Modal isVisi={item.modalVisible} onClick={e => handleCancelParentEvent(e)}>
                 <Title>
                     {item.id ? "Editar " : "Criar "}
-                    Usuário
+                    Unidade
                 </Title>
                 {
                     loading ? (
@@ -125,15 +112,8 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                 <ContainerInput>
                                     <h1>*Nome</h1>
                                     <input
-                                        defaultValue={userData ? userData.name : ""}
+                                        defaultValue={unitData ? unitData.name : ""}
                                         onChange={(event) => setNameInput(event.target.value)}
-                                    />
-                                </ContainerInput>
-                                <ContainerInput>
-                                    <h1>*Email</h1>
-                                    <input
-                                        defaultValue={userData ? userData.email : ""}
-                                        onChange={(event) => setEmailInput(event.target.value)}
                                     />
                                 </ContainerInput>
                                 <ContainerInput>
@@ -141,26 +121,10 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
                                     <select
                                         onChange={(event) => setCompanyInput(parseInt(event.target.value))}
                                         id="company"
-                                        defaultValue={userData.companyId ? getCompanyById(userData.companyId) : companies[0].name}
+                                        defaultValue={unitData.companyId ? getCompanyById(unitData.companyId) : companies[0].name}
                                     >
                                         {
                                             companies.map((item, i) => {
-                                                if (true) {
-                                                    return <option key={i} value={item.id}>{item.name}</option>
-                                                }
-                                            })
-                                        }
-                                    </select>
-                                </ContainerInput>
-                                <ContainerInput>
-                                    <h1>*Unidade</h1>
-                                    <select
-                                        onChange={(event) => setUnitInput(parseInt(event.target.value))}
-                                        defaultValue={userData.unitId ? getUnitNameById(userData.unitId) : units[0].name}
-                                        id="unit"
-                                    >
-                                        {
-                                            units.map((item, i) => {
                                                 if (true) {
                                                     return <option key={i} value={item.id}>{item.name}</option>
                                                 }
@@ -189,4 +153,4 @@ const PopupUser: React.FC<ModalProps> = ({ item, ...props }) => {
     );
 }
 
-export default PopupUser;
+export default PopupUnit;

@@ -108,15 +108,3 @@ export const Body = styled.div`
     width: 100%;
     justify-content: space-between;
 `;
-
-export const NoDataContainer = styled.div`
-    width: 100%;
-    align-items: center;
-    padding: 30px 0;
-`;
-
-export const NoDataText = styled.text`
-    margin-top: 20px;
-    font-size: 1rem;
-    color: var(--gray);
-`;

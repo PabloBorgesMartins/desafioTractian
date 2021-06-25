@@ -11,20 +11,20 @@ import { FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 
 import userImage from '../../assets/user1.png';
-import PopupUser from '../../pages/Users/PopupUser';
-import { UserProps } from '../../interfaces/User';
+import PopupUnit from '../../pages/Units/PopupUnit';
+import { UnitProps } from '../../interfaces/Unit';
 import { useUser } from '../../hooks/users'
 import { useCompany } from '../../hooks/companies'
 import { useUnit } from '../../hooks/units'
 
-interface UserCardProps {
-    user: UserProps
+interface UnitCardProps {
+    unit: UnitProps
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, ...props }) => {
+const UserCard: React.FC<UnitCardProps> = ({ unit, ...props }) => {
     const { deleteUser } = useUser();
     const { getCompanyById } = useCompany();
-    const { getUnitNameById } = useUnit();
+    const { getUnitNameById, deleteUnit } = useUnit();
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = () => {
@@ -35,18 +35,16 @@ const UserCard: React.FC<UserCardProps> = ({ user, ...props }) => {
         <Container>
             <Image src={userImage} />
             <UserData>
-                <UserName>{user.name}</UserName>
+                <UserName>{unit.name}</UserName>
                 <UserSpecification>
-                    {user.companyId ? getCompanyById(user.companyId) : "Sem Empresa"}
-                    {" - "}
-                    {user.unitId ? getUnitNameById(user.unitId) : "Sem Unidade"}
+                    {unit.companyId ? getCompanyById(unit.companyId) : "Sem Empresa"}
                 </UserSpecification>
             </UserData>
             <RightContent>
-                <FaTrash size={18} onClick={() => deleteUser(user.id)} />
+                <FaTrash size={18} onClick={() => deleteUnit(unit.id)} />
                 <MdEdit size={18} onClick={() => openModal()} />
             </RightContent>
-            <PopupUser item={{ modalVisible, setModalVisible, id: user.id }} />
+            <PopupUnit item={{ modalVisible, setModalVisible, id: unit.id }} />
         </Container>
     );
 }

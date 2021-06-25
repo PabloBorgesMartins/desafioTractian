@@ -21,7 +21,7 @@ const UserProvider: React.FC = ({ children }) => {
   const [users, setUsers] = useState<UserProps[]>([] as UserProps[]);
 
   useEffect(() => {
-    console.log("User Provider Inciado")
+    console.log("User Provider Iniciado")
   }, []);
 
   const getUsers = useCallback(async () => {

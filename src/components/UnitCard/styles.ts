@@ -1,0 +1,78 @@
+import styled from 'styled-components';
+
+export const Container = styled.div`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--backgroundLight);
+    width: 45%;
+    min-width: 300px;
+    min-height: 120px;
+    margin-bottom: 40px;
+
+    @media (max-width: 800px) {
+        min-width: 0;
+        flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+        width: 100%;
+    }
+    
+`;
+
+export const Image = styled.img`
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    align-self: center;
+    border: 3px solid var(--tractianDarkBlue);
+`;
+
+export const UserData = styled.div`
+    align-items: flex-start;
+    justify-content: space-evenly;
+    /* background-color: red; */
+    width: 100%;
+    padding: 0 20px;
+
+    @media (max-width: 800px) {
+        align-items: center;
+        padding: 30px 0 50px;
+    }
+`;
+
+export const UserName = styled.h1`
+    font-size: 1.3rem;
+    text-align: left;
+    margin-bottom: 20px;
+
+    @media (max-width: 800px) {
+        text-align: center;
+    }
+`;
+
+export const UserSpecification = styled.p`
+    font-size: 1rem;
+    text-align: left;
+    color: var(--gray);
+
+    @media (max-width: 800px) {
+        text-align: center;
+    }
+`;
+
+export const RightContent = styled.div`
+    height: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+    /* background-color: red; */
+
+    @media (max-width: 800px) {
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+    }
+`;
