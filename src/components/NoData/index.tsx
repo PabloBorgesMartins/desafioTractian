@@ -14,7 +14,7 @@ const NoData: React.FC<NoDataProps> = ({ type }) => {
         <NoDataContainer>
             <FcDeleteDatabase size={80} />
             <NoDataText>
-                {type} não encontrados.
+                {type} não encontrado(a).
             </NoDataText>
         </NoDataContainer>
     );

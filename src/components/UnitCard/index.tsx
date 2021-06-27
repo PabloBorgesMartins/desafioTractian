@@ -1,48 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
     Container,
     Image,
-    UserData,
-    UserName,
-    UserSpecification,
-    RightContent
+    UnitData,
+    Name,
+    Specification,
+    RightContent,
+    Button
 } from './styles'
 import { FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 
-import userImage from '../../assets/user1.png';
+import unitImage from '../../assets/unit.png';
 import PopupUnit from '../../pages/Units/PopupUnit';
 import { UnitProps } from '../../interfaces/Unit';
-import { useUser } from '../../hooks/users'
-import { useCompany } from '../../hooks/companies'
-import { useUnit } from '../../hooks/units'
+import { useCompany } from '../../hooks/companies';
+import { useUnit } from '../../hooks/units';
 
 interface UnitCardProps {
     unit: UnitProps
 }
 
-const UserCard: React.FC<UnitCardProps> = ({ unit, ...props }) => {
-    const { deleteUser } = useUser();
-    const { getCompanyById } = useCompany();
-    const { getUnitNameById, deleteUnit } = useUnit();
+const UnitCard: React.FC<UnitCardProps> = ({ unit }) => {
+    const { getCompanyNameById } = useCompany();
+    const { deleteUnit } = useUnit();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const openModal = () => {
+    const openModal = useCallback(() => {
         setModalVisible(true);
-    }
+    }, []);
 
     return (
         <Container>
-            <Image src={userImage} />
-            <UserData>
-                <UserName>{unit.name}</UserName>
-                <UserSpecification>
-                    {unit.companyId ? getCompanyById(unit.companyId) : "Sem Empresa"}
-                </UserSpecification>
-            </UserData>
+            <Image src={unitImage} />
+            <UnitData>
+                <Name>{unit.name}</Name>
+                <Specification>
+                    {unit.companyId ? getCompanyNameById(unit.companyId) : "Sem Empresa"}
+                </Specification>
+            </UnitData>
             <RightContent>
-                <FaTrash size={18} onClick={() => deleteUnit(unit.id)} />
-                <MdEdit size={18} onClick={() => openModal()} />
+                <Button>
+                    <FaTrash size={18} onClick={() => deleteUnit(unit.id)} />
+                </Button>
+                <Button>
+                    <MdEdit size={18} onClick={() => openModal()} />
+                </Button>
             </RightContent>
             <PopupUnit item={{ modalVisible, setModalVisible, id: unit.id }} />
         </Container>
@@ -50,4 +53,4 @@ const UserCard: React.FC<UnitCardProps> = ({ unit, ...props }) => {
 }
 
 
-export default UserCard;
+export default UnitCard;

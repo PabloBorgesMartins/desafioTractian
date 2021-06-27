@@ -45,7 +45,11 @@ const UserProvider: React.FC = ({ children }) => {
 
   const editUser = useCallback(async (user: UserProps) => {
     let usersAux = [...users];
-    usersAux[getIndex(user.id)] = user;
+    try {
+      usersAux[getIndex(user.id)] = user;
+    } catch (err) {
+      console.log("Error edit user", err)
+    }
     setUsers(usersAux);
   }, [users]);
 

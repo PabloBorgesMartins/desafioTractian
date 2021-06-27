@@ -39,7 +39,7 @@ const NavBar = () => {
     }, [selected]);
 
     return (
-        <Container style={{position:"sticky"}}>
+        <Container style={{ position: "sticky" }}>
             <Logo src={logo2} />
             <Menu>
                 <Link to="/">
@@ -57,21 +57,21 @@ const NavBar = () => {
                         <FaUsers size={30} />
                     </Button>
                 </Link>
-                <Link to="/companies">
-                    <Button isSelected={getRouteName("companies")}>
-                        <FaSuitcase size={30} />
-                    </Button>
-                </Link>
                 <Link to="/units">
                     <Button isSelected={getRouteName("units")}>
                         <FaTh size={30} />
                     </Button>
                 </Link>
+                <Link to="/companies">
+                    <Button isSelected={getRouteName("companies")}>
+                        <FaSuitcase size={30} />
+                    </Button>
+                </Link>
             </Menu>
             <MenuDropdown onClick={() => setOpen(!open)} isOpen={open}>
                 <MenuDropDownButton>
-                    <MenuDropDownLogo isOpen={open} src={logo}/>
-                    <IoMdMenu size={25}/>
+                    <MenuDropDownLogo isOpen={open} src={logo} />
+                    <IoMdMenu size={25} />
                 </MenuDropDownButton>
                 <MenuDropdownContainer isOpen={open}>
                     <DropDownButton>
@@ -84,10 +84,10 @@ const NavBar = () => {
                         <Link to="/users">Usuários</Link>
                     </DropDownButton>
                     <DropDownButton>
-                        <Link to="/companies">Empresas</Link>
+                        <Link to="/units">Unidades</Link>
                     </DropDownButton>
                     <DropDownButton>
-                        <Link to="/units">Unidades</Link>
+                        <Link to="/companies">Empresas</Link>
                     </DropDownButton>
                 </MenuDropdownContainer>
             </MenuDropdown>

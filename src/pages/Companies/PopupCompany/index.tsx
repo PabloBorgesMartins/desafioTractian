@@ -13,8 +13,7 @@ import * as Yup from 'yup';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { useCompany } from '../../../hooks/companies'
-import { UnitProps } from '../../../interfaces/Unit'
-import { useUnit } from '../../../hooks/units'
+import { CompanyProps } from '../../../interfaces/Company'
 import LoaderSpinner from '../../../components/LoaderSpinner'
 
 interface ModalProps {
@@ -25,14 +24,12 @@ interface ModalProps {
     }
 }
 
-const PopupUnit: React.FC<ModalProps> = ({ item }) => {
+const PopupCompany: React.FC<ModalProps> = ({ item }) => {
     const [nameInput, setNameInput] = useState("");
-    const [companyInput, setCompanyInput] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [unitData, setUnitData] = useState<UnitProps>({} as UnitProps);
+    const [companyData, setCompanyData] = useState<CompanyProps>({} as CompanyProps);
 
-    const { getUnitById, editUnit, addUnit } = useUnit();
-    const { getCompanies, companies, getCompanyNameById } = useCompany();
+    const { getCompanies, getCompanyById, addCompany, editCompany } = useCompany();
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
@@ -45,12 +42,11 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
     }, [item.modalVisible])
 
     const loadData = async () => {
-        // await getCompanies();
+        await getCompanies();
         if (item.id) {
-            let aux = await getUnitById(item.id)
-            setUnitData(aux);
+            let aux = await getCompanyById(item.id)
+            setCompanyData(aux);
             setNameInput(aux.name);
-            setCompanyInput(aux.companyId);
         }
         setLoading(false)
     }
@@ -63,22 +59,20 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
         try {
             let data = {
                 name: nameInput,
-                companyId: companyInput,
             }
             const schema = Yup.object().shape({
                 name: Yup.string().required('Nome obrigatório!'),
-                companyId: Yup.string().required('Selecione uma Empresa!'),
             });
             await schema.validate(data, {
                 abortEarly: false,
             });
             if (item.id) {
-                editUnit({
+                editCompany({
                     id: item.id,
                     ...data
                 })
             } else {
-                addUnit({
+                addCompany({
                     id: 0,
                     active: true,
                     ...data
@@ -104,7 +98,7 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
             <Modal isVisi={item.modalVisible} onClick={e => handleCancelParentEvent(e)}>
                 <Title>
                     {item.id ? "Editar " : "Criar "}
-                    Unidade
+                    Empresa
                 </Title>
                 {
                     loading ? (
@@ -116,25 +110,9 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
                                     <h1>*Nome</h1>
                                     <input
                                         value={nameInput}
-                                        defaultValue={unitData ? unitData.name : ""}
+                                        defaultValue={companyData ? companyData.name : ""}
                                         onChange={(event) => setNameInput(event.target.value)}
                                     />
-                                </ContainerInput>
-                                <ContainerInput>
-                                    <h1>*Empresa</h1>
-                                    <select
-                                        onChange={(event) => setCompanyInput(parseInt(event.target.value))}
-                                        id="company"
-                                        defaultValue={unitData.companyId ? getCompanyNameById(unitData.companyId) : companies[0].name}
-                                    >
-                                        {
-                                            companies.map((item, i) => {
-                                                if (true) {
-                                                    return <option key={i} value={item.id}>{item.name}</option>
-                                                }
-                                            })
-                                        }
-                                    </select>
                                 </ContainerInput>
                             </Body>
                             <Footer>
@@ -157,4 +135,4 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
     );
 }
 
-export default PopupUnit;
+export default PopupCompany;

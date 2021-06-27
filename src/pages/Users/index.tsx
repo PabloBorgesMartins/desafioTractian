@@ -4,13 +4,11 @@ import {
     Content,
     Header,
     HeaderButton,
-    HeaderInput,
     Body,
 } from './styles'
-import { FaSearch } from 'react-icons/fa';
-import { MdCancel } from 'react-icons/md';
 
 import UserCard from '../../components/UserCard'
+import InputBlue from '../../components/InputBlue'
 import PopupUser from './PopupUser';
 import { useUser } from '../../hooks/users'
 import LoaderSpinner from '../../components/LoaderSpinner';
@@ -62,19 +60,11 @@ const Users = () => {
         <Container>
             <Content>
                 <Header>
-                    <HeaderInput>
-                        <input
-                            value={search}
-                            onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Buscar"
-                        />
-                        {
-                            search && <div>
-                                <MdCancel onClick={() => searchUser("")} size={15} />
-                            </div>
-                        }
-                        <FaSearch onClick={() => searchUser(search)} size={15} />
-                    </HeaderInput>
+                    <InputBlue
+                        search={search}
+                        setSearch={setSearch}
+                        searchUnit={searchUser}
+                    />
                     <HeaderButton onClick={() => openModal()}>
                         Adicionar usuário
                     </HeaderButton>
@@ -92,7 +82,7 @@ const Users = () => {
                                         }
                                     })
                                 ) : (
-                                    <NoData type="Usuários" />
+                                    <NoData type="Usuário" />
                                 )
                             }
                         </Body>

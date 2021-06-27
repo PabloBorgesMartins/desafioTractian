@@ -54,7 +54,11 @@ const UnitProvider: React.FC = ({ children }) => {
 
   const editUnit = useCallback(async (unit: UnitProps) => {
     let unitsAux = [...units];
-    unitsAux[getIndex(unit.id)] = unit;
+    try {
+      unitsAux[getIndex(unit.id)] = unit;
+    } catch (err) {
+      console.log("Error edit unit", err)
+    }
     setUnits(unitsAux);
   }, [units]);
 
@@ -64,7 +68,7 @@ const UnitProvider: React.FC = ({ children }) => {
     try {
       unitsAux[index].active = false;
     } catch (err) {
-      console.log("Error delete user", err)
+      console.log("Error delete unit", err)
     }
     setUnits(unitsAux)
   }, [units]);

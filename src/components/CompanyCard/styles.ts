@@ -32,7 +32,7 @@ export const Image = styled.img`
     border: 3px solid var(--tractianDarkBlue);
 `;
 
-export const UnitData = styled.div`
+export const CompanyData = styled.div`
     align-items: flex-start;
     justify-content: space-evenly;
     /* background-color: red; */
@@ -49,16 +49,6 @@ export const Name = styled.h1`
     font-size: 1.3rem;
     text-align: left;
     margin-bottom: 20px;
-
-    @media (max-width: 800px) {
-        text-align: center;
-    }
-`;
-
-export const Specification = styled.p`
-    font-size: 1rem;
-    text-align: left;
-    color: var(--gray);
 
     @media (max-width: 800px) {
         text-align: center;

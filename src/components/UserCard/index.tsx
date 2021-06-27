@@ -5,7 +5,8 @@ import {
     UserData,
     UserName,
     UserSpecification,
-    RightContent
+    RightContent,
+    Button
 } from './styles'
 import { FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
@@ -23,7 +24,7 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ user, ...props }) => {
     const { deleteUser } = useUser();
-    const { getCompanyById } = useCompany();
+    const { getCompanyNameById } = useCompany();
     const { getUnitNameById } = useUnit();
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -37,14 +38,18 @@ const UserCard: React.FC<UserCardProps> = ({ user, ...props }) => {
             <UserData>
                 <UserName>{user.name}</UserName>
                 <UserSpecification>
-                    {user.companyId ? getCompanyById(user.companyId) : "Sem Empresa"}
+                    {user.companyId ? getCompanyNameById(user.companyId) : "Sem Empresa"}
                     {" - "}
                     {user.unitId ? getUnitNameById(user.unitId) : "Sem Unidade"}
                 </UserSpecification>
             </UserData>
             <RightContent>
-                <FaTrash size={18} onClick={() => deleteUser(user.id)} />
-                <MdEdit size={18} onClick={() => openModal()} />
+                <Button>
+                    <FaTrash size={18} onClick={() => deleteUser(user.id)} />
+                </Button>
+                <Button>
+                    <MdEdit size={18} onClick={() => openModal()} />
+                </Button>
             </RightContent>
             <PopupUser item={{ modalVisible, setModalVisible, id: user.id }} />
         </Container>

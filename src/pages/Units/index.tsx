@@ -4,20 +4,18 @@ import {
     Content,
     Header,
     HeaderButton,
-    HeaderInput,
     Body,
 } from './styles'
-import { FaSearch } from 'react-icons/fa';
-import { MdCancel } from 'react-icons/md';
 
 import UnitCard from '../../components/UnitCard'
+import InputBlue from '../../components/InputBlue'
 import PopupUser from './PopupUnit';
 import { useUnit } from '../../hooks/units'
 import LoaderSpinner from '../../components/LoaderSpinner';
 import { UnitProps } from '../../interfaces/Unit';
 import NoData from '../../components/NoData'
 
-const Units = () => {
+const Units: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -61,19 +59,11 @@ const Units = () => {
         <Container>
             <Content>
                 <Header>
-                    <HeaderInput>
-                        <input
-                            value={search}
-                            onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Buscar"
-                        />
-                        {
-                            search && <div>
-                                <MdCancel onClick={() => searchUnit("")} size={15} />
-                            </div>
-                        }
-                        <FaSearch onClick={() => searchUnit(search)} size={15} />
-                    </HeaderInput>
+                    <InputBlue
+                        search={search}
+                        setSearch={setSearch}
+                        searchUnit={searchUnit}
+                    />
                     <HeaderButton onClick={() => openModal()}>
                         Adicionar unidade
                     </HeaderButton>
@@ -91,7 +81,7 @@ const Units = () => {
                                         }
                                     })
                                 ) : (
-                                    <NoData type="Usuários" />
+                                    <NoData type="Unidade" />
                                 )
                             }
                         </Body>

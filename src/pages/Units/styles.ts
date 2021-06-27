@@ -61,45 +61,6 @@ export const HeaderButton = styled.button`
     }
 `;
 
-export const HeaderInput = styled.div`
-    background-color: var(--tractianBlue);
-    padding: 5px 20px;
-    border-radius: 5px;
-    height: 40px;
-    width: 30%;
-    min-width: 200px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-
-    div{
-        padding: 0 10px;
-    }
-
-    input{
-        border: 0;
-        background-color: transparent;
-        outline: none;
-        color: var(--white);
-        font-size: 1rem;
-        width: 100%;
-        min-width: 0;
-
-        &::placeholder {
-            color: var(--white);
-        }
-
-        ::selection{
-            background-color: black;
-        }
-    }
-
-    @media (max-width: 600px) {
-        width: 100%;
-    }
-`;
-
 export const Body = styled.div`
     flex-direction: row;
     flex-wrap: wrap;

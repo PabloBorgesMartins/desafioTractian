@@ -11,6 +11,7 @@ export const Container = styled.div`
     min-width: 300px;
     min-height: 120px;
     margin-bottom: 40px;
+    box-Shadow: 1px 1px 3px 0px var(--black);
 
     @media (max-width: 800px) {
         min-width: 0;
@@ -74,5 +75,20 @@ export const RightContent = styled.div`
     @media (max-width: 800px) {
         flex-direction: row-reverse;
         justify-content: space-evenly;
+    }
+`;
+
+export const Button = styled.button`
+    border: 0;
+    box-Shadow: 1px 1px 3px 0px var(--black);
+    margin: 0;
+    padding: 7px 7px 3px;
+    border-radius: 5px;
+    background-color: var(--tractianBlue);
+    color: var(--white);
+
+    &:hover{
+        filter: brightness(1.4);
+        transition: 600ms;
     }
 `;

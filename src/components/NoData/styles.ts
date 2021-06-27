@@ -6,7 +6,7 @@ export const NoDataContainer = styled.div`
     padding: 30px 0;
 `;
 
-export const NoDataText = styled.text`
+export const NoDataText = styled.p`
     margin-top: 20px;
     font-size: 1rem;
     color: var(--gray);
