@@ -175,42 +175,39 @@ const Asset: React.FC = () => {
                                     <ListPadding>
                                         <Unit>- {asset.sensors}</Unit>
                                     </ListPadding>
-                                    <Title style={{ marginBottom: 0 }}>Especificações:</Title>
+                                    <Title >Especificações:</Title>
                                     <ListPadding>
+                                        <Row>
+                                            <Title>- Temperatura máxima:&nbsp;</Title>
+                                            <Unit >{asset.specifications.maxTemp} ºC</Unit>
+                                        </Row>
                                         {
-                                            asset.specifications.maxTemp &&
-                                            <Row>
-                                                <Title>- Temperatura máxima:&nbsp;</Title>
-                                                <Unit style={{ marginBottom: 0 }}>{asset.specifications.maxTemp} ºC</Unit>
-                                            </Row>
-                                        }
-                                        {
-                                            asset.specifications.rpm &&
-                                            <Row>
+                                            !!asset.specifications.rpm &&
+                                            <Row style={{ backgroundColor: 'red' }}>
                                                 <Title>- RPM:&nbsp;</Title>
-                                                <Unit style={{ marginBottom: 0 }}>{asset.specifications.rpm}</Unit>
+                                                <Unit >{asset.specifications.rpm.toFixed(2)}</Unit>
                                             </Row>
                                         }
                                         {
-                                            asset.specifications.power &&
+                                            !!asset.specifications.power &&
                                             <Row>
                                                 <Title>- Potência:&nbsp;</Title>
-                                                <Unit style={{ marginBottom: 0 }}>{asset.specifications.power}</Unit>
+                                                <Unit >{asset.specifications.power}</Unit>
                                             </Row>
                                         }
                                     </ListPadding>
                                     <Title>Métricas:</Title>
                                     <ListPadding>
                                         <Row>
-                                            <Title>-Total de coletas:&nbsp;</Title>
+                                            <Title>- Total de coletas:&nbsp;</Title>
                                             <Unit>{asset.metrics.totalCollectsUptime}</Unit>
                                         </Row>
                                         <Row>
-                                            <Title>-Total de coletas:&nbsp;</Title>
+                                            <Title>- Total de coletas:&nbsp;</Title>
                                             <Unit>{asset.metrics.totalUptime.toFixed(2)}</Unit>
                                         </Row>
                                         <Row>
-                                            <Title>-Ultima coleta:&nbsp;</Title>
+                                            <Title>- Ultima coleta:&nbsp;</Title>
                                             <Unit>{moment(asset.metrics.lastUptimeAt).format(
                                                 'DD/MM/YYYY HH:mm:ss',
                                             )}</Unit>
