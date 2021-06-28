@@ -40,3 +40,14 @@ export const Title = styled.h1`
     color: var(--black);
     margin-left: 10px;
 `;
+
+export const Button = styled.button`
+    border: 0;
+    background-color: transparent;
+    margin-right: 20px;
+
+    &:hover{
+        filter: brightness(1.4);
+        transition: 600ms;
+    }
+`;

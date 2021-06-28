@@ -32,9 +32,6 @@ const UserProvider: React.FC = ({ children }) => {
 
   const getUsers = useCallback(async () => {
     let { data } = await api.get<UserProps[]>('users');
-    // let aux = data.map((el) => {
-    //   return { ...el, active: true }
-    // })
     setUsers([...data, ...savedUsers])
   }, [savedUsers]);
 

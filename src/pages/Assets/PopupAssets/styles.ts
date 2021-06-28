@@ -29,11 +29,12 @@ export const Modal = styled.div<IModalProps>`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 20px 0 20px 20px;
     background-color: #fff;
     border-radius: 5px;
     width: 50%;
     max-width: 500px;
+    max-height: 80vh;
     z-index: calc(var(--zindexPopup) + 10);
 
     @media (max-width: 1000px){
@@ -56,7 +57,9 @@ export const Body = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    padding: 15px 0 30px;
+    padding: 15px 15px 30px 0;
+
+    overflow-y: scroll;
 `;
 
 export const ContainerInput = styled.div`
@@ -103,6 +106,7 @@ export const Footer = styled.div`
     justify-content: flex-end;
     align-items: center;
     width: 100%;
+    padding-right: 20px;
 `;
 
 export const ButtonCancel = styled.button`

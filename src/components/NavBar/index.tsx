@@ -21,6 +21,7 @@ import logo2 from '../../assets/favicon.png'
 const NavBar = () => {
     const [open, setOpen] = useState(false);
     const { listen, location } = useHistory();
+    const history = useHistory();
     const [selected, setSelected] = useState(['home']);
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const NavBar = () => {
 
     return (
         <Container style={{ position: "sticky" }}>
-            <Logo src={logo2} />
+            <Logo onClick={() => history.push("/")} src={logo2}/>
             <Menu>
                 <Link to="/">
                     <Button isSelected={getRouteName("")}>

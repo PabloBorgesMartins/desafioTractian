@@ -33,6 +33,7 @@ export const Logo = styled.img`
     width: 70%;
     align-self: center;
     padding: 0 0 50px;
+    cursor: pointer;
 
     @media (max-width: 1000px) {
         width: 50px;

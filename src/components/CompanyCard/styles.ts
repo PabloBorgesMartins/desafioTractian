@@ -16,12 +16,8 @@ export const Container = styled.div`
     @media (max-width: 800px) {
         min-width: 0;
         flex-direction: column;
-    }
-
-    @media (max-width: 600px) {
         width: 100%;
     }
-    
 `;
 
 export const Image = styled.img`

@@ -7,54 +7,53 @@ import {
     Body,
 } from './styles'
 
-import UserCard from '../../components/UserCard'
+import AssetCard from '../../components/AssetCard'
 import InputBlue from '../../components/InputBlue'
-import PopupUser from './PopupAssets';
-import { useUser } from '../../hooks/users'
+import PopupAssets from './PopupAssets';
+import { useAssets } from '../../hooks/assets'
 import LoaderSpinner from '../../components/LoaderSpinner';
-import { UserProps } from '../../interfaces/User';
+import { AssetProps } from '../../interfaces/Asset';
 import NoData from '../../components/NoData'
 
-const Users = () => {
+const Assets = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [userData, setUserData] = useState<UserProps[]>([]);
+    const [assetData, setAssetData] = useState<AssetProps[]>([]);
 
-    const { getUsers, users } = useUser();
+    const { getAssets, assets } = useAssets();
 
     const loadData = useCallback(async () => {
-        await getUsers();
+        await getAssets();
         setLoading(false);
-    }, [getUsers]);
+    }, [getAssets]);
 
     useEffect(() => {
         loadData();
     }, [loadData]);
 
     useEffect(() => {
-        setUserData(users);
-    }, [users]);
+        setAssetData(assets);
+    }, [assets]);
 
     const openModal = useCallback(async () => {
         setModalVisible(true);
     }, []);
 
-    const searchUser = useCallback((value: string) => {
+    const searchAsset = useCallback((value: string) => {
         if (value) {
-            setUserData(() => {
-                return users.filter(el => {
+            setAssetData(() => {
+                return assets.filter(el => {
                     return (
-                        el.name.toLowerCase().includes(value.toLowerCase()) ||
-                        el.email.toLowerCase().includes(value.toLowerCase())
+                        el.name.toLowerCase().includes(value.toLowerCase())
                     );
                 });
             });
         } else {
-            setUserData(users);
+            setAssetData(assets);
             setSearch(value);
         }
-    }, [users]);
+    }, [assets]);
 
     return (
         <Container>
@@ -63,7 +62,7 @@ const Users = () => {
                     <InputBlue
                         search={search}
                         setSearch={setSearch}
-                        searchUnit={searchUser}
+                        searchUnit={searchAsset}
                     />
                     <HeaderButton onClick={() => openModal()}>
                         Adicionar ativo
@@ -75,10 +74,10 @@ const Users = () => {
                     ) : (
                         <Body>
                             {
-                                userData.length ? (
-                                    userData.map((item, i) => {
+                                assetData.length ? (
+                                    assetData.map((item, i) => {
                                         if (item.active || item.active === undefined) {
-                                            return <UserCard user={item} key={i} />
+                                            return <AssetCard asset={item} key={i} />
                                         }
                                         return null;
                                     })
@@ -90,9 +89,9 @@ const Users = () => {
                     )
                 }
             </Content>
-            <PopupUser item={{ modalVisible, setModalVisible }} />
+            <PopupAssets item={{ modalVisible, setModalVisible }} />
         </Container>
     );
 }
 
-export default Users;
+export default Assets;

@@ -14,20 +14,21 @@ import {
 } from './styles'
 
 import api from '../../services/api'
-import { IAsset } from '../../interfaces/Asset';
+import { AssetProps } from '../../interfaces/Asset';
 import LoaderSpinner from '../../components/LoaderSpinner';
 
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
 const Home: React.FC = () => {
-    const [assets, setAssets] = useState<IAsset[]>([]);
+    const [assets, setAssets] = useState<AssetProps[]>([]);
     const [loading, setLoading] = useState(true);
     const [averageHealth, setAverageHealth] = useState(1)
+    const [arrayStatus, setArrayStatus] = useState<number[]>([]);
 
     const load = useCallback(async () => {
         await setTimeout(async () => {
-            let { data } = await api.get<IAsset[]>('assets');
+            let { data } = await api.get<AssetProps[]>('assets');
             await setAssets(data)
             setLoading(false);
         }, 1000)
@@ -40,19 +41,24 @@ const Home: React.FC = () => {
     useEffect(() => {
         if (assets) {
             let averageHealth = 0;
+            let arrayStatus = [0, 0, 0]
             assets.forEach(element => {
                 averageHealth += element.healthscore;
+                if (element.status === "inOperation") arrayStatus[0]++;
+                if (element.status === "inAlert") arrayStatus[1]++;
+                if (element.status === "inDowntime") arrayStatus[2]++;
             });
+            setArrayStatus(arrayStatus)
             setAverageHealth(parseFloat((averageHealth / assets.length).toFixed(2)));
         }
     }, [assets]);
 
     const generateRandomNumberToColect = useCallback(() => {
-        return Math.floor(Math.random() * 48000);
+        return Math.floor(Math.random() * (48000 - 30000) + 30000);
     }, []);
 
     const generateRandomPercent = useCallback(() => {
-        return parseFloat((Math.random() * 100).toFixed(2));
+        return parseFloat((Math.random() * (95 - 50) + 50).toFixed(2));
     }, []);
 
     const numberOptions: Highcharts.Options = {
@@ -220,16 +226,16 @@ const Home: React.FC = () => {
             type: 'pie',
             data: [{
                 name: 'Em operação',
-                y: 5,
-                color: '#098E16'
+                y: arrayStatus[0],
+                color: '#33BB22'
             }, {
                 name: 'Em alerta',
-                y: 2,
-                color: '#FC7721'
+                y: arrayStatus[1],
+                color: '#FF9911'
             }, {
                 name: 'Em parada',
-                y: 1,
-                color: '#DE2B1B'
+                y: arrayStatus[2],
+                color: '#EE1B1B'
             }]
         }]
     };
@@ -243,7 +249,7 @@ const Home: React.FC = () => {
                 ) : (
                     <>
                         <Header>
-                            <Title>Análise diária dos ativos</Title>
+                            <Title>Análise diária de ativos</Title>
                         </Header>
                         <Content>
                             <RowGraphics>

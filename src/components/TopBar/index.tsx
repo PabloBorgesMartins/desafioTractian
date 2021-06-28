@@ -2,16 +2,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
     Container,
     Title,
-    Blue
+    Blue,
+    Button
 } from './styles'
 import {
-    useHistory
+    useHistory,
 } from "react-router-dom";
-import { FaUsers, FaTh, FaTools, FaSuitcase, FaHome } from 'react-icons/fa';
+import { FaUsers, FaTh, FaTools, FaSuitcase, FaHome, FaArrowLeft } from 'react-icons/fa';
+import { useAssets } from '../../hooks/assets'
 
 const TopBar: React.FC = () => {
     const { listen, location } = useHistory();
+    const history = useHistory();
     const [selected, setSelected] = useState(['home']);
+
+    const { getAssetById } = useAssets();
 
     useEffect(() => {
         setSelected([location.pathname.substring(1, location.pathname.length)]);
@@ -22,6 +27,9 @@ const TopBar: React.FC = () => {
     }, [location, listen]);
 
     const getRouteName = useCallback(() => {
+        if (selected[0].split("/").length > 1) {
+            return `${getAssetById(parseInt(selected[0].split("/")[1])).name}`
+        }
         switch (selected[0]) {
             case "assets":
                 return "Ativos"
@@ -34,9 +42,16 @@ const TopBar: React.FC = () => {
             default:
                 return "Início"
         }
-    }, [selected]);
+    }, [selected, getAssetById]);
 
     const getRouteIcon = useCallback(() => {
+        if (selected[0].split("/").length > 1) {
+            return (
+                <Button onClick={() => history.goBack()} >
+                    <FaArrowLeft size={20} />
+                </Button>
+            )
+        }
         switch (selected[0]) {
             case "assets":
                 return <FaTools size={25} />
@@ -49,7 +64,7 @@ const TopBar: React.FC = () => {
             default:
                 return <FaHome size={25} />
         }
-    }, [selected]);
+    }, [selected, history]);
 
     return (
         <Blue>

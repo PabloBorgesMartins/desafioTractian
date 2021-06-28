@@ -7,9 +7,9 @@ export const Container = styled.div`
     padding: 20px;
     border-radius: 10px;
     background-color: var(--backgroundLight);
-    width: 45%;
+    width: 48%;
     min-width: 300px;
-    min-height: 120px;
+    min-height: 180px;
     margin-bottom: 40px;
     box-Shadow: 1px 1px 3px 0px var(--black);
 
@@ -21,43 +21,71 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    min-width: 90px;
+    height: 90px;
+    min-height: 90px;
     border-radius: 100%;
     align-self: center;
-    border: 3px solid var(--tractianDarkBlue);
+    border: 4px solid var(--tractianDarkBlue);
+
+    @media (max-width: 800px) {
+        width: 120px;
+        min-width: 120px;
+        height: 120px;
+        min-height: 120px;
+    }
 `;
 
-export const UserData = styled.div`
+export const AssetData = styled.div`
     align-items: flex-start;
     justify-content: space-evenly;
-    /* background-color: red; */
     width: 100%;
     padding: 0 20px;
 
     @media (max-width: 800px) {
+        flex-direction: column-reverse;
         align-items: center;
         padding: 30px 0 50px;
     }
 `;
 
-export const UserName = styled.h1`
+export const AssetName = styled.h1`
     font-size: 1.3rem;
     text-align: left;
-    margin-bottom: 20px;
 
     @media (max-width: 800px) {
         text-align: center;
     }
 `;
 
-export const UserSpecification = styled.p`
+export const Row = styled.div`
+    flex-direction: row;
+    align-items: center;
+`;
+
+export const AssetStatus = styled.div`
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    margin-right: 5px;
+`;
+
+export const AssetStatusText = styled.p`
+    font-size: 1.1rem;
+    text-align: left;
+    font-weight: bold;
+`;
+
+export const AssetSpecification = styled.p`
     font-size: 1rem;
     text-align: left;
+    padding: 10px 0;
     color: var(--gray);
 
     @media (max-width: 800px) {
         text-align: center;
+        padding: 20px 0;
     }
 `;
 

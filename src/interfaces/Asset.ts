@@ -1,24 +1,5 @@
-/* eslint-disable no-shadow */
 
-export const AssetStatus: { [key: string]: string } = {
-  inAlert: 'Em Alerta',
-  inOperation: 'Em Operação',
-  inDowntime: 'Em Parada',
-};
-
-
-export const AssetStatusColor: { [key: string]: string } = {
-  inAlert: '#faad14',
-  inOperation: '#52c41a',
-  inDowntime: '#ff4d4f',
-};
-
-export const AssetModel: { [key: string]: string } = {
-  fan: 'Ventilador',
-  motor: 'Motor',
-};
-
-export interface IAsset {
+export interface AssetProps {
   [key: string]: any;
   id: number;
   sensors: string[];
@@ -38,7 +19,22 @@ export interface IAsset {
     lastUptimeAt: string;
   };
   unitId: number;
-  unit: string;
   companyId: number;
-  company: string;
 }
+
+export const AssetStatusPortuguese: { [key: string]: string } = {
+  inAlert: 'Em Alerta',
+  inOperation: 'Em Operação',
+  inDowntime: 'Em Parada',
+};
+
+export const AssetModelPortuguese: { [key: string]: string } = {
+  fan: 'Ventilador',
+  motor: 'Motor',
+};
+
+export const AssetStatusColor: { [key: string]: string } = {
+  inAlert: '#FF9911',
+  inOperation: '#33BB22',
+  inDowntime: '#EE1B1B',
+};
