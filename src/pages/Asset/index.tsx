@@ -203,7 +203,7 @@ const Asset: React.FC = () => {
                                             <Unit>{asset.metrics.totalCollectsUptime}</Unit>
                                         </Row>
                                         <Row>
-                                            <Title>- Total de coletas:&nbsp;</Title>
+                                            <Title>- Total de horas coletadas:&nbsp;</Title>
                                             <Unit>{asset.metrics.totalUptime.toFixed(2)}</Unit>
                                         </Row>
                                         <Row>
