@@ -183,7 +183,7 @@ const Asset: React.FC = () => {
                                         </Row>
                                         {
                                             !!asset.specifications.rpm &&
-                                            <Row style={{ backgroundColor: 'red' }}>
+                                            <Row>
                                                 <Title>- RPM:&nbsp;</Title>
                                                 <Unit >{asset.specifications.rpm.toFixed(2)}</Unit>
                                             </Row>
