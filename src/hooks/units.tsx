@@ -21,9 +21,15 @@ const UnitProvider: React.FC = ({ children }) => {
   const [savedUnits, setSavedUnits] = useState<UnitProps[]>([]);
   const [units, setUnits] = useState<UnitProps[]>([]);
 
-  useEffect(() => {
-    getUnits();
-  }, []);
+  const getIndex = useCallback((id: number) => {
+    let index = -1;
+    units.forEach((el, i) => {
+      if (el.id === id) {
+        index = i;
+      }
+    })
+    return index;
+  }, [units])
 
   const getUnits = useCallback(async () => {
     let { data } = await api.get<UnitProps[]>('units');
@@ -36,7 +42,7 @@ const UnitProvider: React.FC = ({ children }) => {
       return units[index];
     }
     return {} as UnitProps;
-  }, [units]);
+  }, [units, getIndex]);
 
   const getUnitNameById = useCallback((id: number) => {
     let index = getIndex(id)
@@ -44,7 +50,7 @@ const UnitProvider: React.FC = ({ children }) => {
       return units[index].name;
     }
     return "Sem Unidade";
-  }, [units]);
+  }, [units, getIndex]);
 
   const addUnit = useCallback(async (unit: UnitProps) => {
     unit.id = units.length + 1;
@@ -60,7 +66,7 @@ const UnitProvider: React.FC = ({ children }) => {
       console.log("Error edit unit", err)
     }
     setUnits(unitsAux);
-  }, [units]);
+  }, [units, getIndex]);
 
   const deleteUnit = useCallback(async (id: number) => {
     let unitsAux = [...units];
@@ -71,17 +77,11 @@ const UnitProvider: React.FC = ({ children }) => {
       console.log("Error delete unit", err)
     }
     setUnits(unitsAux)
-  }, [units]);
+  }, [units, getIndex]);
 
-  const getIndex = (id: number) => {
-    let index = -1;
-    units.forEach((el, i) => {
-      if (el.id == id) {
-        index = i;
-      }
-    })
-    return index;
-  }
+  useEffect(() => {
+    getUnits();
+  }, [getUnits]);
 
   return (
     <UnitContext.Provider

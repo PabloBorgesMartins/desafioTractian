@@ -23,18 +23,18 @@ const Users = () => {
 
     const { getUsers, users } = useUser();
 
+    const loadData = useCallback(async () => {
+        await getUsers();
+        setLoading(false);
+    }, [getUsers]);
+
     useEffect(() => {
         loadData();
-    }, []);
+    }, [loadData]);
 
     useEffect(() => {
         setUserData(users);
     }, [users]);
-
-    const loadData = useCallback(async () => {
-        await getUsers();
-        setLoading(false);
-    }, []);
 
     const openModal = useCallback(async () => {
         setModalVisible(true);
@@ -80,6 +80,7 @@ const Users = () => {
                                         if (item.active || item.active === undefined) {
                                             return <UserCard user={item} key={i} />
                                         }
+                                        return null;
                                     })
                                 ) : (
                                     <NoData type="Usuário" />

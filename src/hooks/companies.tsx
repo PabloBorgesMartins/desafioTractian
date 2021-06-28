@@ -21,9 +21,15 @@ const CompanyProvider: React.FC = ({ children }) => {
   const [savedCompanies, setSavedCompanies] = useState<CompanyProps[]>([]);
   const [companies, setCompanies] = useState<CompanyProps[]>([]);
 
-  useEffect(() => {
-    getCompanies();
-  }, []);
+  const getIndex = useCallback((id: number) => {
+    let index = -1;
+    companies.forEach((el, i) => {
+      if (el.id === id) {
+        index = i;
+      }
+    })
+    return index;
+  }, [companies]);
 
   const getCompanies = useCallback(async () => {
     let { data } = await api.get<CompanyProps[]>('companies');
@@ -36,7 +42,7 @@ const CompanyProvider: React.FC = ({ children }) => {
       return companies[index];
     }
     return {} as CompanyProps;
-  }, [companies]);
+  }, [companies, getIndex]);
 
   const getCompanyNameById = useCallback((id: number) => {
     let index = getIndex(id)
@@ -44,7 +50,7 @@ const CompanyProvider: React.FC = ({ children }) => {
       return companies[index].name;
     }
     return "Sem Empresa";
-  }, [companies]);
+  }, [companies, getIndex]);
 
   const addCompany = useCallback(async (company: CompanyProps) => {
     company.id = companies.length + 1;
@@ -60,7 +66,7 @@ const CompanyProvider: React.FC = ({ children }) => {
       console.log("Error edit company", err)
     }
     setCompanies(unitsAux);
-  }, [companies]);
+  }, [companies, getIndex]);
 
   const deleteCompany = useCallback(async (id: number) => {
     let unitsAux = [...companies];
@@ -71,17 +77,11 @@ const CompanyProvider: React.FC = ({ children }) => {
       console.log("Error delete company", err)
     }
     setCompanies(unitsAux)
-  }, [companies]);
+  }, [companies, getIndex]);
 
-  const getIndex = (id: number) => {
-    let index = -1;
-    companies.forEach((el, i) => {
-      if (el.id == id) {
-        index = i;
-      }
-    })
-    return index;
-  }
+  useEffect(() => {
+    getCompanies();
+  }, [getCompanies]);
 
   return (
     <CompanyContext.Provider

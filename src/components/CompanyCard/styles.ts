@@ -48,7 +48,6 @@ export const CompanyData = styled.div`
 export const Name = styled.h1`
     font-size: 1.3rem;
     text-align: left;
-    margin-bottom: 20px;
 
     @media (max-width: 800px) {
         text-align: center;

@@ -20,9 +20,15 @@ const UserProvider: React.FC = ({ children }) => {
   const [savedUsers, setSavedUsers] = useState<UserProps[]>([] as UserProps[]);
   const [users, setUsers] = useState<UserProps[]>([] as UserProps[]);
 
-  useEffect(() => {
-    console.log("User Provider Iniciado")
-  }, []);
+  const getIndex = useCallback((id: number) => {
+    let index = -1;
+    users.forEach((el, i) => {
+      if (el.id === id) {
+        index = i;
+      }
+    })
+    return index;
+  }, [users]);
 
   const getUsers = useCallback(async () => {
     let { data } = await api.get<UserProps[]>('users');
@@ -35,7 +41,7 @@ const UserProvider: React.FC = ({ children }) => {
   const getUserById = useCallback(async (id: number) => {
     let index = getIndex(id)
     return users[index];
-  }, [users]);
+  }, [users, getIndex]);
 
   const addUser = useCallback(async (user: UserProps) => {
     user.id = users.length + 1;
@@ -51,7 +57,7 @@ const UserProvider: React.FC = ({ children }) => {
       console.log("Error edit user", err)
     }
     setUsers(usersAux);
-  }, [users]);
+  }, [users, getIndex]);
 
   const deleteUser = useCallback(async (id: number) => {
     let usersAux = [...users];
@@ -62,17 +68,11 @@ const UserProvider: React.FC = ({ children }) => {
       console.log("Error delete user", err)
     }
     setUsers(usersAux)
-  }, [users]);
+  }, [users, getIndex]);
 
-  const getIndex = (id: number) => {
-    let index = -1;
-    users.forEach((el, i) => {
-      if (el.id == id) {
-        index = i;
-      }
-    })
-    return index;
-  }
+  useEffect(() => {
+    console.log("User Provider Iniciado")
+  }, []);
 
   return (
     <UserContext.Provider

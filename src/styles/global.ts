@@ -22,7 +22,10 @@ export const GlobalStyle = createGlobalStyle`
         --background: #ddd;
         --backgroundLight: #e7e7e7;
 
-        --zindexPopup: 1000;
+        --zindexPopup: 1200;
+        --zindexNav: 1100;
+        --zindexTop: 1000;
+        --zindexContent: 900;
     }  
 
     * { 

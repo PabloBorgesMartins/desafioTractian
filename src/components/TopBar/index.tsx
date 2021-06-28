@@ -19,7 +19,7 @@ const TopBar: React.FC = () => {
         return listen(route => {
             setSelected([route.pathname.substring(1, route.pathname.length)]);
         });
-    }, [location]);
+    }, [location, listen]);
 
     const getRouteName = useCallback(() => {
         switch (selected[0]) {

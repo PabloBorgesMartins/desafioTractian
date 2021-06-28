@@ -13,7 +13,6 @@ import * as Yup from 'yup';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { useCompany } from '../../../hooks/companies'
-import { CompanyProps } from '../../../interfaces/Company'
 import LoaderSpinner from '../../../components/LoaderSpinner'
 
 interface ModalProps {
@@ -27,33 +26,35 @@ interface ModalProps {
 const PopupCompany: React.FC<ModalProps> = ({ item }) => {
     const [nameInput, setNameInput] = useState("");
     const [loading, setLoading] = useState(true);
-    const [companyData, setCompanyData] = useState<CompanyProps>({} as CompanyProps);
 
-    const { getCompanies, getCompanyById, addCompany, editCompany } = useCompany();
+    const { getCompanyById, addCompany, editCompany } = useCompany();
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
     }
 
+    const loadData = useCallback(async () => {
+        if (item.id) {
+            let aux = await getCompanyById(item.id)
+            setNameInput(aux.name);
+        }
+        setLoading(false)
+    }, [item, getCompanyById])
+
     useEffect(() => {
         if (item.modalVisible) {
             loadData();
         }
-    }, [item.modalVisible])
-
-    const loadData = async () => {
-        await getCompanies();
-        if (item.id) {
-            let aux = await getCompanyById(item.id)
-            setCompanyData(aux);
-            setNameInput(aux.name);
-        }
-        setLoading(false)
-    }
+    }, [item.modalVisible, loadData])
 
     const clear = useCallback(() => {
         setNameInput("");
     }, []);
+
+    const closeModal = useCallback(() => {
+        clear();
+        item.setModalVisible(false);
+    }, [item, clear]);
 
     const handleSave = useCallback(async () => {
         try {
@@ -69,6 +70,7 @@ const PopupCompany: React.FC<ModalProps> = ({ item }) => {
             if (item.id) {
                 editCompany({
                     id: item.id,
+                    active: true,
                     ...data
                 })
             } else {
@@ -86,12 +88,7 @@ const PopupCompany: React.FC<ModalProps> = ({ item }) => {
             }
         }
         closeModal();
-    }, [nameInput, item]);
-
-    const closeModal = useCallback(() => {
-        clear();
-        item.setModalVisible(false);
-    }, [item]);
+    }, [nameInput, item, addCompany, closeModal, editCompany]);
 
     return (
         <ModalOutside isVisi={item.modalVisible}>
@@ -110,7 +107,7 @@ const PopupCompany: React.FC<ModalProps> = ({ item }) => {
                                     <h1>*Nome</h1>
                                     <input
                                         value={nameInput}
-                                        defaultValue={companyData ? companyData.name : ""}
+                                        // value={nameInput ? nameInput : ""}
                                         onChange={(event) => setNameInput(event.target.value)}
                                     />
                                 </ContainerInput>

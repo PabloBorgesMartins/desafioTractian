@@ -29,10 +29,10 @@ const NavBar = () => {
         return listen(route => {
             setSelected([route.pathname.substring(1, route.pathname.length)]);
         });
-    }, [location]);
+    }, [location, listen]);
 
     const getRouteName = useCallback((value) => {
-        if (value == selected[0]) {
+        if (value === selected[0]) {
             return true;
         }
         return false;
@@ -70,7 +70,9 @@ const NavBar = () => {
             </Menu>
             <MenuDropdown onClick={() => setOpen(!open)} isOpen={open}>
                 <MenuDropDownButton>
-                    <MenuDropDownLogo isOpen={open} src={logo} />
+                    <Link to="/">
+                        <MenuDropDownLogo isOpen={open} src={logo} />
+                    </Link>
                     <IoMdMenu size={25} />
                 </MenuDropDownButton>
                 <MenuDropdownContainer isOpen={open}>

@@ -11,6 +11,7 @@ export const Container = styled.div`
     border-radius: 0;
     border-radius: 20px 0 0 0;
     box-Shadow: 3px 0px 6px 0px var(--black);
+    z-index: var(--zindexTop);
 
     img{
         color: var(--red);

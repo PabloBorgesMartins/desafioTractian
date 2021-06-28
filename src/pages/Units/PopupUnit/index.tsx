@@ -13,7 +13,6 @@ import * as Yup from 'yup';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { useCompany } from '../../../hooks/companies'
-import { UnitProps } from '../../../interfaces/Unit'
 import { useUnit } from '../../../hooks/units'
 import LoaderSpinner from '../../../components/LoaderSpinner'
 
@@ -29,35 +28,37 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
     const [nameInput, setNameInput] = useState("");
     const [companyInput, setCompanyInput] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [unitData, setUnitData] = useState<UnitProps>({} as UnitProps);
 
     const { getUnitById, editUnit, addUnit } = useUnit();
-    const { getCompanies, companies, getCompanyNameById } = useCompany();
+    const { companies } = useCompany();
 
     const handleCancelParentEvent = (event: any) => {
         event.stopPropagation();
     }
 
-    useEffect(() => {
-        if (item.modalVisible) {
-            loadData();
-        }
-    }, [item.modalVisible])
-
-    const loadData = async () => {
-        // await getCompanies();
+    const loadData = useCallback(async () => {
         if (item.id) {
             let aux = await getUnitById(item.id)
-            setUnitData(aux);
             setNameInput(aux.name);
             setCompanyInput(aux.companyId);
         }
         setLoading(false)
-    }
+    }, [item, getUnitById]);
+
+    useEffect(() => {
+        if (item.modalVisible) {
+            loadData();
+        }
+    }, [item.modalVisible, loadData])
 
     const clear = useCallback(() => {
         setNameInput("");
     }, []);
+
+    const closeModal = useCallback(() => {
+        clear();
+        item.setModalVisible(false);
+    }, [item, clear]);
 
     const handleSave = useCallback(async () => {
         try {
@@ -92,12 +93,7 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
             }
         }
         closeModal();
-    }, [nameInput, item]);
-
-    const closeModal = useCallback(() => {
-        clear();
-        item.setModalVisible(false);
-    }, [item]);
+    }, [nameInput, item, addUnit, closeModal, companyInput, editUnit]);
 
     return (
         <ModalOutside isVisi={item.modalVisible}>
@@ -116,22 +112,19 @@ const PopupUnit: React.FC<ModalProps> = ({ item }) => {
                                     <h1>*Nome</h1>
                                     <input
                                         value={nameInput}
-                                        defaultValue={unitData ? unitData.name : ""}
                                         onChange={(event) => setNameInput(event.target.value)}
                                     />
                                 </ContainerInput>
                                 <ContainerInput>
                                     <h1>*Empresa</h1>
                                     <select
+                                        value={companyInput}
                                         onChange={(event) => setCompanyInput(parseInt(event.target.value))}
                                         id="company"
-                                        defaultValue={unitData.companyId ? getCompanyNameById(unitData.companyId) : companies[0].name}
                                     >
                                         {
                                             companies.map((item, i) => {
-                                                if (true) {
-                                                    return <option key={i} value={item.id}>{item.name}</option>
-                                                }
+                                                return <option key={i} value={item.id}>{item.name}</option>
                                             })
                                         }
                                     </select>

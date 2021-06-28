@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
     BrowserRouter,
     Switch,
@@ -8,7 +8,6 @@ import {
     Container,
     SafeArea,
     Content,
-    Teste
 } from './styles'
 
 import NavBar from '../components/NavBar'
@@ -35,10 +34,7 @@ export default function App() {
                             <Route path="/users" component={Users} />
                         </Switch>
                     </Content>
-
-                    {/* <Teste/> */}
                 </SafeArea>
-
             </Container>
         </BrowserRouter>
     );

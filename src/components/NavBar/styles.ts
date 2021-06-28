@@ -17,6 +17,7 @@ export const Container = styled.div`
     flex-direction: column;
     padding: 20px 0;
     width: 80px;
+    z-index: var(--zindexNav);
 
     @media (max-width: 1000px) {
         flex-direction: row;
@@ -55,11 +56,20 @@ export const Button = styled.button<MenuProps>`
     border: 0;
     color: var(--white);
 
+    &:hover{
+        background-color: rgba(255,255,255,0.4);
+        border-radius: 0 20px 20px 0;
+        transition: 400ms;
+    }
 
     ${props => props.isSelected && css`
         background-color: var(--white);
         border-radius: 0 20px 20px 0;
         color: var(--tractianBlue);
+
+        &:hover{
+            background-color: var(--white);
+        }
     `}
 `;
 
@@ -70,7 +80,6 @@ export const MenuDropdown = styled.div<MenuDropDownProps>`
         /* position: sticky;  
         top: 0;
         left: 0; */
-        z-index: 100000;
         position: relative;
         display: flex;
         flex-direction: column;

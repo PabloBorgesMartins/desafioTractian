@@ -24,17 +24,17 @@ const Companies: React.FC = () => {
     const { companies, getCompanies } = useCompany();
 
     useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
         setCompanyData(companies);
     }, [companies]);
 
     const loadData = useCallback(async () => {
         await getCompanies();
         setLoading(false);
-    }, []);
+    }, [getCompanies]);
+
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
 
     const openModal = useCallback(async () => {
         setModalVisible(true);
@@ -79,6 +79,7 @@ const Companies: React.FC = () => {
                                         if (item.active || item.active === undefined) {
                                             return <CompanyCard company={item} key={i} />
                                         }
+                                        return null;
                                     })
                                 ) : (
                                     <NoData type="Empresa" />

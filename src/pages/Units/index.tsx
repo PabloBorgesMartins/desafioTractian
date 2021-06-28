@@ -24,17 +24,17 @@ const Units: React.FC = () => {
     const { units, getUnits } = useUnit();
 
     useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
         setUnitData(units);
     }, [units]);
 
     const loadData = useCallback(async () => {
         await getUnits();
         setLoading(false);
-    }, []);
+    }, [getUnits]);
+
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
 
     const openModal = useCallback(async () => {
         setModalVisible(true);
@@ -79,6 +79,7 @@ const Units: React.FC = () => {
                                         if (item.active || item.active === undefined) {
                                             return <UnitCard unit={item} key={i} />
                                         }
+                                        return null;
                                     })
                                 ) : (
                                     <NoData type="Unidade" />
