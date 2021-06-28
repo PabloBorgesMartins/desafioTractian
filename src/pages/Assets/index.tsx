@@ -82,7 +82,7 @@ const Assets = () => {
                                         return null;
                                     })
                                 ) : (
-                                    <NoData type="Usuário" />
+                                    <NoData type="Ativo" />
                                 )
                             }
                         </Body>
